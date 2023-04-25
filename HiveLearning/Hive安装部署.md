@@ -84,7 +84,7 @@ scp -r core-site.xml root@slave2:$PWD
 1、安装包上传到/data/packages, 直接解压安装
 
 ```shell
-tar -zxvf apache-hive-3.1.2-bin.tar.gz -C /software/
+tar -zxvf /data/packages/apache-hive-3.1.2-bin.tar.gz -C /software/
 mv /software/apache-hive-3.1.2-bin/ /software/hive
 ```
 
