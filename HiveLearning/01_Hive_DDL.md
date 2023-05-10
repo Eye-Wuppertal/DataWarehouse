@@ -89,3 +89,74 @@ ROW FORMAT DELIMITED| SERDE serde_name WITH SERDEPROPERTIES (property_name=prope
 默认路径由${HIVE_HOME}/conof/hive-site.xml文件中的hive.metastore.warehouse.dir属性指定，默认值是：/user/hive/warehouse
 
 语法为 ：LOCATION '<hdfs_location>'
+
+### DDL建表练习
+
+#### 原生数据类型
+
+```hive
+use test02;
+create table t_archer(
+    id int comment "ID",
+    name string comment "英雄名称",
+    hp_max int comment "最大生命",
+    mp_max int comment "最大法力",
+    attack_max int comment "最高物攻",
+    defense_max int comment "最大物防",
+    attack_range string comment "攻击范围",
+    role_main string comment "主要定位",
+    role_assist string comment "次要定位"
+) comment "王者荣耀射手信息"
+    row format delimited
+        fields terminated by "\t";
+
+show tables;
+
+-- 建表之后表数据为空，将数据文件上传到Hive路径后刷新得到内容 
+```
+
+```shell
+hadoop fs -put /data/dataset/archer.txt /user/hive/warehouse/test02.db/t_archer
+```
+
+![image-20230429102936419](img/image-20230429102936419.png)
+
+#### 复杂数据类型
+
+![image-20230429111605661](img/image-20230429111605661.png)
+
+如上可以看到map映射的kv键值对，需要注意字段间的分隔符、集合元素间的分割符、map kv之间的分隔符；
+
+```hive
+use test02;
+create table t_archer(
+    id int comment "ID",
+    name string comment "英雄名称",
+    hp_max int comment "最大生命",
+    mp_max int comment "最大法力",
+    attack_max int comment "最高物攻",
+    defense_max int comment "最大物防",
+    attack_range string comment "攻击范围",
+    role_main string comment "主要定位",
+    role_assist string comment "次要定位"
+) comment "王者荣耀射手信息"
+    row format delimited
+        fields terminated by "\t";
+
+show tables;
+
+select * from t_archer;
+
+create table t_hot_hero_skin_price(
+    id int,
+    name string,
+    win_rate int,
+    skin_price map<string,int>
+) row format delimited
+fields terminated by ',' --指定字段之间的分隔符
+collection items terminated by '-' --指定集合元素之间的分隔符
+map keys terminated by ':';  --指定m kv之间的分隔符
+
+select * from t_hot_hero_skin_price
+```
+

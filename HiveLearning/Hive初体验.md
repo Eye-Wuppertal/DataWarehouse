@@ -36,7 +36,7 @@ export PATH=$PATH:$HIVE_HOME/bin
 beeline进去后
 
 ```sql
-! connect jdbc:hive2:master:10000  # 默认端口是10000
+! connect jdbc:hive2://master:10000  # 默认端口是10000
 ```
 
 ![image-20230425110656009](img/image-20230425110656009.png)
